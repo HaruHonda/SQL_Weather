@@ -2,7 +2,7 @@
 I solved several sql questions. 
 
 ---
-### Question 1-1
+### Question 1-1.
 #### Obtain meteorological data for Tokyo and query (SQL) for the following and the result.
 
 ```
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS test;
 LOAD DATA LOCAL INFILE '/Users/HarukiHonda/Downloads/data-1.csv' INTO TABLE weathercast_test.test FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 ```
 ---
-### Question 1-2
+### Question 1-2.
 #### 10 temperature differences (in absolute value) from the same time the day before in descending order, and the date and time of the temperature difference.
 
 ```
@@ -36,3 +36,21 @@ order by abs desc
 limit 10;
 ```
 <img width="290" alt="スクリーンショット 2021-10-27 14 06 01" src="https://user-images.githubusercontent.com/60038634/139062394-b70aad9c-a06d-40e1-929c-a9a817e5ff85.png">
+
+#### All combinations of one-hour differences were created in Inner join, and the temperature differences were obtained in absolute values and sorted in order of increasing absolute value.
+---
+#### Question 1-3. 
+#### Average temperature over ±2 hours from time of Question 1-2. 
+
+```
+select test.date, t2.date, t3.date,t4.date, t2.temperature, t3.temperature,t4.temperature, ABS(test.temperature - t2.temperature) as abs, avg(t2.temperature + t3.temperature + t4.temperature) 
+from (test inner join test t2 on (t2.date - INTERVAL 12 HOUR) = (test.date + INTERVAL 12 HOUR))
+inner join test t3 on (t2.date - INTERVAL 1 HOUR) = (t3.date + INTERVAL 1 HOUR)
+inner join test t4 on (t4.date - INTERVAL 1 HOUR) = (t3.date + INTERVAL 3 HOUR)
+group by t2.date,t3.date,t4.date
+order by abs desc
+limit 10;
+```
+<img width="544" alt="スクリーンショット 2021-10-27 14 15 39" src="https://user-images.githubusercontent.com/60038634/139063630-d665e8ca-23ba-4a90-b0c2-fdfd7debe0af.png">
+
+To the table obtained in questions 1-2, the date and its weather for ±2 hours were added by inner join and the average was taken.
