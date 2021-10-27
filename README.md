@@ -1,6 +1,7 @@
 # SQL_Weather
 I solved several sql questions. 
 
+---
 Question 1-1
 Obtain meteorological data for Tokyo and query (SQL) for the following and the result.
 
@@ -17,8 +18,9 @@ Period: 1 January to 28 February 2018
 #####    sun TEXT
 ##### );
 
-LOAD DATA LOCAL INFILE '/Users/HarukiHonda/Downloads/data-1.csv' INTO TABLE weathercast_test.test FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
+##### LOAD DATA LOCAL INFILE '/Users/HarukiHonda/Downloads/data-1.csv' INTO TABLE weathercast_test.test FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
+---
 Question 1-2
 10 temperature differences (in absolute value) from the same time the day before in descending order, and the date and time of the temperature difference.
 
