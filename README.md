@@ -39,7 +39,7 @@ limit 10;
 
 #### All combinations of one-hour differences were created in Inner join, and the temperature differences were obtained in absolute values and sorted in order of increasing absolute value.
 ---
-#### Question 1-3. 
+### Question 1-3. 
 #### Average temperature over ±2 hours from time of Question 1-2. 
 
 ```
@@ -54,3 +54,33 @@ limit 10;
 <img width="544" alt="スクリーンショット 2021-10-27 14 15 39" src="https://user-images.githubusercontent.com/60038634/139063630-d665e8ca-23ba-4a90-b0c2-fdfd7debe0af.png">
 
 To the table obtained in questions 1-2, the date and its weather for ±2 hours were added by inner join and the average was taken.
+---
+### Question 1-4
+#### Ten 3-hour total precipitation data (in descending order) and the date and time of the data.
+
+```
+select test.date as dateA, t2.date as dateB, t3.date as dateC,test.rain as rainA,t2.rain as rainB,t3.rain as rainC, avg(test.rain + t2.rain + t3.rain)/3 as avePre
+from (test inner join test t2 on (t2.date - INTERVAL 0.2 HOUR) = (test.date + INTERVAL 1 HOUR))
+inner join test t3 on (t2.date + INTERVAL 1 HOUR) = (t3.date + INTERVAL 0.3 HOUR)
+group by test.date,t2.date,t3.date
+order by avePre desc
+limit 10;
+```
+<img width="547" alt="スクリーンショット 2021-10-27 14 22 58" src="https://user-images.githubusercontent.com/60038634/139064597-c732654a-a3d1-4642-b445-6fd8e51596ab.png">
+
+#### Inner join was used to create combinations of three hours from date a to date c, and the average precipitation for each was obtained.
+---
+### Question 1-5.
+#### Average time from the time of the Question 1-4. until the onset of daylight (onset of daylight = daylight hours > 0)
+
+```
+select test.date as dateA, t2.date as dateB, t3.date as dateC,t4.date as dateD,test.rain as rainA,t2.rain as rainB,t3.rain as rainC,t4.sun as sunD,avg(test.rain + t2.rain + t3.rain)/3 as aveRain,min(ABS(DATEDIFF(t2.date,t4.date))) as absSun
+from (test inner join test t2 on (t2.date - INTERVAL 0.2 HOUR) = (test.date + INTERVAL 1 HOUR))
+inner join test t3 on (t2.date + INTERVAL 1 HOUR) = (t3.date + INTERVAL 0.3 HOUR)
+inner join test t4 on ABS(DATEDIFF(t2.date,t4.date)) and t4.sun > 0 
+group by test.date,t2.date,t3.date
+order by aveRain desc, absRain
+limit 10;
+```
+<img width="547" alt="スクリーンショット 2021-10-27 14 25 52" src="https://user-images.githubusercontent.com/60038634/139065022-0bb72224-186f-48ce-b1ec-1aad5356e32f.png">
+
