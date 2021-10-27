@@ -5,19 +5,22 @@ I solved several sql questions.
 ### Question 1-1
 #### Obtain meteorological data for Tokyo and query (SQL) for the following and the result.
 
-#### Please download the following information from the Japan Meteorological Agency and store it in the DB.
-#### Location: Tokyo
-#### Items: Hourly values, temperature, precipitation, sunshine hours
-#### Period: 1 January to 28 February 2018
+```
+Please download the following information from the Japan Meteorological Agency and store it in the DB.
+Location: Tokyo
+Items: Hourly values, temperature, precipitation, sunshine hours
+Period: 1 January to 28 February 2018
+```
 
-##### DROP TABLE IF EXISTS test;
-##### CREATE TABLE test (
-#####    date TEXT,
-#####    temperature TEXT,
-#####    rain TEXT,
-#####    sun TEXT
-##### );
-
+```
+DROP TABLE IF EXISTS test;
+  CREATE TABLE test (
+  date TEXT,
+  temperature TEXT,
+  rain TEXT,
+  sun TEXT
+);
+```
 ##### LOAD DATA LOCAL INFILE '/Users/HarukiHonda/Downloads/data-1.csv' INTO TABLE weathercast_test.test FIELDS TERMINATED BY ',' LINES TERMINATED BY '\r\n';
 
 ---
